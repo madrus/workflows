@@ -1,5 +1,8 @@
+// no need to require jQuery library here
+// because we have done it in tagline.coffee
+
 $(function() {
-  var Mustache = require('mustache');
+  var Mustache = require('mustache'); // require Mustache library
 
   $.getJSON('js/data.json', function(data) {
     var template = $('#speakerstpl').html();
