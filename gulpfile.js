@@ -40,3 +40,5 @@ gulp.task('compass', function() {
       .on('error', gutil.log)     // on error log the error message
     .pipe(gulp.dest('builds/development/css')) // write to the resulting style.css file
 });
+
+gulp.task('default', ['coffee', 'js', 'compass']);
