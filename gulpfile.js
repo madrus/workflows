@@ -41,4 +41,10 @@ gulp.task('compass', function() {
     .pipe(gulp.dest('builds/development/css')) // write to the resulting style.css file
 });
 
+gulp.task('watch', function() {
+  gulp.watch(coffeeSources, ['coffee']); // if anything changes in coffee folder(s) run coffee task
+  gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s) run js task
+  gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s) run compass task
+});
+
 gulp.task('default', ['coffee', 'js', 'compass']);
