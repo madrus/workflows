@@ -15,6 +15,8 @@ var jsSources = [
   'components/scripts/template.js'
 ];
 var sassSources = ['components/sass/style.scss'];
+var htmlSources = ['builds/development/*.html'];
+var jsonSources = ['builds/development/js/*.json'];
 var onError = function(err) {
     console.log(err);
 }
@@ -51,6 +53,16 @@ gulp.task('compass', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
+gulp.task('html', function() {
+    return gulp.src(htmlSources)
+    .pipe(connect.reload()); // refresh the page
+});
+
+gulp.task('json', function() {
+    return gulp.src(jsonSources)
+    .pipe(connect.reload()); // refresh the page
+});
+
 gulp.task('connect', function(){
     connect.server({
       root: 'builds/development/', // at this moment we only have our development website
@@ -62,6 +74,8 @@ gulp.task('watch', function() {
     gulp.watch(coffeeSources, ['coffee']); // if anything changes in coffee folder(s) run coffee task
     gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s) run js task
     gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s) run compass task
+    gulp.watch(htmlSources, ['html']); // if anything changes in html files reload the page
+    gulp.watch(jsonSources, ['json']); // if anything changes in json files reload the page
 });
 
-gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']);
