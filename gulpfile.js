@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
   gulpif = require('gulp-if'),
+  minifyHTML = require('gulp-minify-html'),
   concat = require('gulp-concat');
 
 var env,
@@ -39,7 +40,6 @@ jsSources = [
   'components/scripts/template.js'
 ];
 sassSources = ['components/sass/style.scss'];
-htmlSources = [outputDir + '*.html'];
 jsonSources = [outputDir + 'js/*.json'];
 
 var onError = function(err) {
@@ -95,7 +95,9 @@ gulp.task('compass', function() {
 });
 
 gulp.task('html', function() {
-  return gulp.src(htmlSources)
+  return gulp.src('builds/development/*.html')
+    .pipe(gulpif(env === 'production', minifyHTML()))
+    .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
     .pipe(connect.reload()); // refresh the page
 });
 
@@ -117,7 +119,7 @@ gulp.task('watch', function() {
   gulp.watch(jsSources, ['jsLint']); // if anything changes in scripts folder(s) run js task
   gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s) run js task
   gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s) run compass task
-  gulp.watch(htmlSources, ['html']); // if anything changes in html files reload the page
+  gulp.watch('builds/development/*.html', ['html']); // if anything changes in html files reload the page
   gulp.watch(jsonSources, ['json']); // if anything changes in json files reload the page
 });
 
