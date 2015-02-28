@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     coffee = require('gulp-coffee'),
     browserify = require('gulp-browserify'),
     compass = require('gulp-compass'),
+    plumber = require('gulp-plumber'),
     concat = require('gulp-concat');
 
 var coffeeSources = ['components/coffee/*.coffee'];
@@ -13,6 +14,9 @@ var jsSources = [
   'components/scripts/template.js'
 ];
 var sassSources = ['components/sass/style.scss'];
+var onError = function(err) {
+    console.log(err);
+}
 
 gulp.task('coffee', function() {
   gulp.src(coffeeSources) // source file(s)
@@ -30,14 +34,17 @@ gulp.task('js', function() {
 });
 
 gulp.task('compass', function() {
-  gulp.src(sassSources) // source file(s)
-    .pipe(compass({
+  return gulp.src(sassSources) // source file(s)
+      .pipe(plumber({
+        errorHandler: onError
+      }))
+      .pipe(compass({
       sass: 'components/sass',
       image: 'builds/development/images/',
       style: 'expanded',
-      comments: 'true'
+      comments: 'true',
+      logging: 'true'
     })) // run throught compass
-      .on('error', gutil.log)     // on error log the error message
     .pipe(gulp.dest('builds/development/css')) // write to the resulting style.css file
 });
 
