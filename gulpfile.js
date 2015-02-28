@@ -4,20 +4,44 @@ var gulp = require('gulp'),
   coffeelint = require('gulp-coffeelint'),
   browserify = require('gulp-browserify'),
   compass = require('gulp-compass'),
+  minify = require('gulp-minify-css'),
   jshint = require('gulp-jshint'),
+  uglify = require('gulp-uglify'),
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
+  gulpif = require('gulp-if'),
   concat = require('gulp-concat');
-var coffeeSources = ['components/coffee/*.coffee'];
-var jsSources = [
+
+var env,
+  coffeeSources,
+  jsSources,
+  sassSources,
+  htmlSources,
+  jsonSources,
+  outputDir,
+  sassStyle;
+
+env = process.env.NODE_ENV || 'development'; // global environment setting
+
+if (env === 'development') {
+  outputDir = 'builds/development/';
+  sassStyle = 'expanded';
+} else {
+  outputDir = 'builds/production/';
+  sassStyle = 'compressed';
+};
+
+coffeeSources = ['components/coffee/*.coffee'];
+jsSources = [
   'components/scripts/rclick.js',
   'components/scripts/pixgrids.js',
   'components/scripts/tagline.js',
   'components/scripts/template.js'
 ];
-var sassSources = ['components/sass/style.scss'];
-var htmlSources = ['builds/development/*.html'];
-var jsonSources = ['builds/development/js/*.json'];
+sassSources = ['components/sass/style.scss'];
+htmlSources = [outputDir + '*.html'];
+jsonSources = [outputDir + 'js/*.json'];
+
 var onError = function(err) {
   console.log(err);
 }
@@ -42,7 +66,8 @@ gulp.task('js', function() {
   return gulp.src(jsSources) // source file(s)
     .pipe(concat('script.js')) // concatenate
     .pipe(browserify()) // make it ready for the browser
-    .pipe(gulp.dest('builds/development/js')) // write to the resulting script.js file
+    .pipe(gulpif(env !== 'development', uglify()))
+    .pipe(gulp.dest(outputDir + 'js')) // write to the resulting script.js file
     .pipe(connect.reload()); // refresh the page
 });
 
@@ -59,12 +84,13 @@ gulp.task('compass', function() {
     }))
     .pipe(compass({
       sass: 'components/sass',
-      image: 'builds/development/images/',
-      style: 'expanded',
+      image: outputDir + 'images/',
+      style: sassStyle,
       comments: true,
-      logging: true
+      logging: false
     })) // run throught compass
-    .pipe(gulp.dest('builds/development/css')) // write to the resulting style.css file
+    .pipe(gulpif(env !== 'development', minify()))
+    .pipe(gulp.dest(outputDir + 'css')) // write to the resulting style.css file
     .pipe(connect.reload()); // refresh the page
 });
 
@@ -80,7 +106,7 @@ gulp.task('json', function() {
 
 gulp.task('connect', function() {
   connect.server({
-    root: 'builds/development/', // at this moment we only have our development website
+    root: outputDir, // at this moment we only have our development website
     livereload: true
   });
 });
