@@ -66,7 +66,7 @@ gulp.task('js', function() {
   return gulp.src(jsSources) // source file(s)
     .pipe(concat('script.js')) // concatenate
     .pipe(browserify()) // make it ready for the browser
-    .pipe(gulpif(env !== 'development', uglify()))
+    .pipe(gulpif(env === 'production', uglify()))
     .pipe(gulp.dest(outputDir + 'js')) // write to the resulting script.js file
     .pipe(connect.reload()); // refresh the page
 });
@@ -89,7 +89,7 @@ gulp.task('compass', function() {
       comments: true,
       logging: false
     })) // run throught compass
-    .pipe(gulpif(env !== 'development', minify()))
+    .pipe(gulpif(env === 'production', minify()))
     .pipe(gulp.dest(outputDir + 'css')) // write to the resulting style.css file
     .pipe(connect.reload()); // refresh the page
 });
