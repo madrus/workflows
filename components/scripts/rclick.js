@@ -5,7 +5,7 @@ var rclick = function() {
     myNodes[i].addEventListener("contextmenu", function(e) {
       e.preventDefault();
       if (e.target.tagName === 'IMG') {
-        if (document.querySelector('.preview')== null) {
+        if (document.querySelector('.preview') === null) {
           var myElement = document.createElement('div');
           myElement.className = 'preview';
           e.target.parentNode.appendChild(myElement);
