@@ -6,9 +6,11 @@ var gulp = require('gulp'),
   minifyHTML = require('gulp-minify-html'),
   minifyJSON = require('gulp-jsonminify'),
   uglify = require('gulp-uglify'),
+  imagemin = require('gulp-imagemin'),
+  pngcrush = require('imagemin-pngcrush'),
   // code linting
-  jshint = require('gulp-jshint'),
-  coffeelint = require('gulp-coffeelint'),
+  lintCOFFIE = require('gulp-coffeelint'),
+  lintJS = require('gulp-jshint'),
   // tools
   gutil = require('gulp-util'),
   gulpif = require('gulp-if'),
@@ -51,6 +53,8 @@ var onError = function(error) {
 
 gulp.task('coffee', function() {
   return gulp.src(coffeeSources) // source file(s)
+    .pipe(lintCOFFIE())
+    .pipe(lintCOFFIE.reporter()) // Dump results
     .pipe(coffee({
       bare: true
     })) // and pipe it the the gulp-coffee plugin
@@ -59,25 +63,15 @@ gulp.task('coffee', function() {
     .pipe(gulp.dest('components/scripts')); // write the resulting javascript file to the scripts folder
 });
 
-gulp.task('coffeeLint', function() {
-  return gulp.src(coffeeSources) // source file(s)
-    .pipe(coffeelint())
-    .pipe(coffeelint.reporter()); // Dump results
-});
-
 gulp.task('js', function() {
   return gulp.src(jsSources) // source file(s)
+    .pipe(lintJS())
+    .pipe(lintJS.reporter()) // Dump results
     .pipe(concat('script.js')) // concatenate
     .pipe(browserify()) // make it ready for the browser
     .pipe(gulpif(env === 'production', uglify()))
     .pipe(gulp.dest(outputDir + 'js')) // write to the resulting script.js file
     .pipe(connect.reload()); // refresh the page
-});
-
-gulp.task('jsLint', function() {
-  return gulp.src(jsSources) // source file(s)
-    .pipe(jshint())
-    .pipe(jshint.reporter()); // Dump results
 });
 
 gulp.task('compass', function() {
@@ -104,10 +98,21 @@ gulp.task('html', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
+gulp.task('images', function() {
+  return gulp.src('builds/development/images/**/*.*') // any subdirectory and any image
+    .pipe(gulpif(env === 'production', imagemin({
+      progressive: true,
+      svgoPlugins: [{ removeViewBox: false }],
+      use: [pngcrush()]
+    })))
+    .pipe(gulpif(env === 'production', gulp.dest(outputDir + 'images')))
+    .pipe(connect.reload()); // refresh the page
+});
+
 gulp.task('json', function() {
   return gulp.src('builds/development/js/*.json')
     .pipe(gulpif(env === 'production', minifyJSON()))
-    .pipe(gulpif(env === 'production', gulp.dest('builds/production/js/')))
+    .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
     .pipe(connect.reload()); // refresh the page
 });
 
@@ -119,13 +124,12 @@ gulp.task('connect', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(coffeeSources, ['coffeeLint']); // if anything changes in coffee folder(s) run coffee task
-  gulp.watch(coffeeSources, ['coffee']); // if anything changes in coffee folder(s) run coffee task
-  gulp.watch(jsSources, ['jsLint']); // if anything changes in scripts folder(s) run js task
-  gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s) run js task
-  gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s) run compass task
-  gulp.watch('builds/development/*.html', ['html']); // if anything changes in html files reload the page
-  gulp.watch('builds/development/*.json', ['json']); // if anything changes in json files reload the page
+  gulp.watch(coffeeSources, ['coffee']); // if anything changes in coffee folder(s), lint and compile them
+  gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s), lint and uglify them
+  gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s), compile and evt. compress them
+  gulp.watch('builds/development/*.html', ['html']); // if anything changes in html files, evt. minify them and reload the page
+  gulp.watch('builds/development/*.json', ['json']); // if anything changes in json files, evt. minify them and reload the page
+  gulp.watch('builds/development/images/**/*.*', ['images']); // if anything changes in image files, evt. minify them and reload the page
 });
 
-gulp.task('default', ['html', 'json', 'coffeeLint', 'coffee', 'jsLint', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'images', 'connect', 'watch']);
