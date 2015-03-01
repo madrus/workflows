@@ -20,6 +20,7 @@ var gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
   concat = require('gulp-concat'),
+  // rename = require('gulp-rename'),
   del = require('del'),
   path = require('path');
 
@@ -73,6 +74,7 @@ var plumberErrorHandler = {
 gulp.task('html', function() {
   return gulp.src('builds/development/*.html')
     .pipe(gulpif(env === 'production', minifyHTML()))
+    // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
     .pipe(connect.reload()); // refresh the page
 });
@@ -93,6 +95,7 @@ gulp.task('compass', function() {
       browsers: ['last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
     }))
     .pipe(gulpif(env === 'production', minifyCSS()))
+    // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulp.dest(outputDir + 'css')) // write to the resulting style.css file
     .pipe(connect.reload()); // refresh the page
 });
@@ -116,6 +119,7 @@ gulp.task('js', function() {
     .pipe(concat('script.js')) // concatenate
     .pipe(browserify()) // make it ready for the browser
     .pipe(gulpif(env === 'production', uglify()))
+    // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulp.dest(outputDir + 'js')) // write to the resulting script.js file
     .pipe(connect.reload()); // refresh the page
 });
@@ -136,6 +140,7 @@ gulp.task('images', function() {
 gulp.task('json', function() {
   return gulp.src('builds/development/js/*.json')
     .pipe(gulpif(env === 'production', minifyJSON()))
+    // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
     .pipe(connect.reload()); // refresh the page
 });
@@ -168,22 +173,6 @@ gulp.task('watch', function() {
   gulp.watch('builds/development/*.html', ['html']); // if anything changes in html files, evt. minify them and reload the page
   gulp.watch('builds/development/js/*.json', ['json']); // if anything changes in json files, evt. minify them and reload the page
   gulp.watch('builds/development/images/**/*.*', ['images']); // if anything changes in image files, evt. minify them and reload the page
-  //reload when a template file, the minified css, or the minified js file changes
-  gulp.watch(
-    'builds/production/*.html',
-    'builds/production/css/style.css',
-    'builds/production/js/script.js',
-    'builds/production/*.json',
-    'builds/development/images/**/*.*',
-    function(event) {
-      gulp.src(event.path)
-        .pipe(plumber())
-        .pipe(notify({
-          title: notifyInfo.title,
-          icon: notifyInfo.icon,
-          message: event.path.replace(__dirname, '').replace(/\\/g, '/') + ' was ' + event.type + ' and reloaded'
-        }));
-    });
 });
 
 // default tast to run, compile, minimize and watch with live reload
