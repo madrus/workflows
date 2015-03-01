@@ -12,8 +12,9 @@ var gulp = require('gulp'),
   // code linting
   lintCOFFIE = require('gulp-coffeelint'),
   lintJS = require('gulp-jshint'),
+  stylish = require('jshint-stylish'),
   // tools
-  gutil = require('gulp-util'),
+  //gutil = require('gulp-util'),
   gulpif = require('gulp-if'),
   notify = require('gulp-notify'),
   browserify = require('gulp-browserify'),
@@ -28,10 +29,12 @@ var env,
   coffeeSources,
   jsSources,
   sassSources,
+  sassStyle,
   outputDir,
-  sassStyle;
+  doLinting;
 
 env = process.env.NODE_ENV || 'development'; // global environment setting
+cssLinting = true;
 
 if (env === 'development') {
   outputDir = 'builds/development/';
@@ -50,29 +53,35 @@ jsSources = [
 ];
 sassSources = ['components/sass/style.scss'];
 
-var plumberErrorHandler = function(error) {
-  // do here what else you need
-  console.log(error);
-  this.emit('end');
-};
+// var onError = function(error) {
+//   console.log("onError custom error message: " + error);
+//   this.emit('end');
+// };
 
 //the title and icon that will be used for the Grunt notifications
 var notifyInfo = {
   title: 'Gulp',
+  subtitle: 'Failure!',
   icon: path.join(__dirname, 'gulp.png')
 };
 
 //error notification settings for plumber
-var plumberErrorHandler = {
-  errorHandler: notify.onError({
+var plumberErrorHandler = function(err) {
+  notify.onError({
     title: notifyInfo.title,
+    subtitle: notifyInfo.subtitle,
     icon: notifyInfo.icon,
-    message: "Error: <%= error.message %>"
-  })
+    message: "Error: <%= error.message %>",
+    sound: "Beep"
+  })(err);
+  this.emit('end');
 };
 
 gulp.task('html', function() {
   return gulp.src('builds/development/*.html')
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler
+    }))
     .pipe(gulpif(env === 'production', minifyHTML()))
     // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
@@ -102,20 +111,26 @@ gulp.task('compass', function() {
 
 gulp.task('coffee', function() {
   return gulp.src(coffeeSources) // source file(s)
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler
+    }))
     .pipe(lintCOFFIE())
     .pipe(lintCOFFIE.reporter()) // Dump results
     .pipe(coffee({
       bare: true
     })) // and pipe it the the gulp-coffee plugin
     // without the top-level function safety wrapper
-    .on('error', gutil.log) // on error log the error message
+    // .on('error', onError()) // on error log the error message
     .pipe(gulp.dest('components/scripts')); // write the resulting javascript file to the scripts folder
 });
 
 gulp.task('js', function() {
   return gulp.src(jsSources) // source file(s)
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler
+    }))
     .pipe(lintJS())
-    .pipe(lintJS.reporter()) // Dump results
+    .pipe(lintJS.reporter(stylish)) // Dump results
     .pipe(concat('script.js')) // concatenate
     .pipe(browserify()) // make it ready for the browser
     .pipe(gulpif(env === 'production', uglify()))
@@ -126,6 +141,9 @@ gulp.task('js', function() {
 
 gulp.task('images', function() {
   return gulp.src('builds/development/images/**/*.*') // any subdirectory and any image
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler
+    }))
     .pipe(gulpif(env === 'production', imagemin({
       progressive: true,
       svgoPlugins: [{
@@ -139,6 +157,9 @@ gulp.task('images', function() {
 
 gulp.task('json', function() {
   return gulp.src('builds/development/js/*.json')
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler
+    }))
     .pipe(gulpif(env === 'production', minifyJSON()))
     // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
@@ -161,7 +182,7 @@ gulp.task('clean', function() {
 
 gulp.task('connect', function() {
   connect.server({
-    root: outputDir, // at this moment we only have our development website
+    root: outputDir, // development or production
     livereload: true
   });
 });
