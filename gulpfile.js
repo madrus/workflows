@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
   coffee = require('gulp-coffee'),
   compass = require('gulp-compass'),
+  autoprefixer = require('gulp-autoprefixer');
   // minifying
   minifyCSS = require('gulp-minify-css'),
   minifyHTML = require('gulp-minify-html'),
@@ -14,6 +15,7 @@ var gulp = require('gulp'),
   // tools
   gutil = require('gulp-util'),
   gulpif = require('gulp-if'),
+  notify = require('gulp-notify'),
   browserify = require('gulp-browserify'),
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
@@ -86,8 +88,12 @@ gulp.task('compass', function() {
       comments: true,
       logging: false
     })) // run throught compass
+    .pipe(autoprefixer({
+      browsers: ['last 10 versions', 'ie 9']
+    }))
     .pipe(gulpif(env === 'production', minifyCSS()))
     .pipe(gulp.dest(outputDir + 'css')) // write to the resulting style.css file
+    .pipe(notify('SASS compiled, prefixed and minified'))
     .pipe(connect.reload()); // refresh the page
 });
 
