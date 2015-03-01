@@ -1,24 +1,26 @@
 var gulp = require('gulp'),
-  gutil = require('gulp-util'),
   coffee = require('gulp-coffee'),
-  coffeelint = require('gulp-coffeelint'),
-  browserify = require('gulp-browserify'),
   compass = require('gulp-compass'),
-  minify = require('gulp-minify-css'),
-  jshint = require('gulp-jshint'),
+  // minifying
+  minifyCSS = require('gulp-minify-css'),
+  minifyHTML = require('gulp-minify-html'),
+  minifyJSON = require('gulp-jsonminify'),
   uglify = require('gulp-uglify'),
+  // code linting
+  jshint = require('gulp-jshint'),
+  coffeelint = require('gulp-coffeelint'),
+  // tools
+  gutil = require('gulp-util'),
+  gulpif = require('gulp-if'),
+  browserify = require('gulp-browserify'),
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
-  gulpif = require('gulp-if'),
-  minifyHTML = require('gulp-minify-html'),
   concat = require('gulp-concat');
 
 var env,
   coffeeSources,
   jsSources,
   sassSources,
-  htmlSources,
-  jsonSources,
   outputDir,
   sassStyle;
 
@@ -40,11 +42,12 @@ jsSources = [
   'components/scripts/template.js'
 ];
 sassSources = ['components/sass/style.scss'];
-jsonSources = [outputDir + 'js/*.json'];
 
-var onError = function(err) {
-  console.log(err);
-}
+var onError = function(error) {
+  // do here what else you need
+  console.log(error);
+  this.emit('end');
+};
 
 gulp.task('coffee', function() {
   return gulp.src(coffeeSources) // source file(s)
@@ -89,7 +92,7 @@ gulp.task('compass', function() {
       comments: true,
       logging: false
     })) // run throught compass
-    .pipe(gulpif(env === 'production', minify()))
+    .pipe(gulpif(env === 'production', minifyCSS()))
     .pipe(gulp.dest(outputDir + 'css')) // write to the resulting style.css file
     .pipe(connect.reload()); // refresh the page
 });
@@ -102,7 +105,9 @@ gulp.task('html', function() {
 });
 
 gulp.task('json', function() {
-  return gulp.src(jsonSources)
+  return gulp.src('builds/development/js/*.json')
+    .pipe(gulpif(env === 'production', minifyJSON()))
+    .pipe(gulpif(env === 'production', gulp.dest('builds/production/js/')))
     .pipe(connect.reload()); // refresh the page
 });
 
@@ -120,7 +125,7 @@ gulp.task('watch', function() {
   gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s) run js task
   gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s) run compass task
   gulp.watch('builds/development/*.html', ['html']); // if anything changes in html files reload the page
-  gulp.watch(jsonSources, ['json']); // if anything changes in json files reload the page
+  gulp.watch('builds/development/*.json', ['json']); // if anything changes in json files reload the page
 });
 
 gulp.task('default', ['html', 'json', 'coffeeLint', 'coffee', 'jsLint', 'js', 'compass', 'connect', 'watch']);
