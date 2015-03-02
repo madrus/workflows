@@ -76,6 +76,8 @@ var plumberErrorHandler = function(err) {
   })(err);
   this.emit('end');
 };
+  
+// small change
 
 gulp.task('html', function() {
   return gulp.src('builds/development/*.html')
