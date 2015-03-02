@@ -17,7 +17,7 @@ var gulp = require('gulp'),
   //gutil = require('gulp-util'),
   gulpif = require('gulp-if'),
   notify = require('gulp-notify'),
-  browserify = require('gulp-browserify'),
+  browserify = require('gulp-browserify'), // make sure you install jquery and mustasche plugins
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
   concat = require('gulp-concat'),
@@ -76,8 +76,6 @@ var plumberErrorHandler = function(err) {
   })(err);
   this.emit('end');
 };
-  
-// small change
 
 gulp.task('html', function() {
   return gulp.src('builds/development/*.html')
