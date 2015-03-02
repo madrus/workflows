@@ -170,8 +170,8 @@ gulp.task('json', function() {
 gulp.task('clean', function() {
   del([
     'builds/production/*.html',
-    'builds/production/css/style.css',
-    'builds/production/js/script.js',
+    'builds/production/css/*.css',
+    'builds/production/js/*.js',
     'builds/production/js/*.json',
     'builds/production/images/**/*.*',
     'builds/production/images/*'
