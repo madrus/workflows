@@ -10,4 +10,4 @@ DELETE the session variable
 LEVEL
   - "User" (user-level)
   - “Machine” (machine-level)
-  - “Process” (process-level).
+  - “Process” (process-level)
