@@ -7,6 +7,7 @@
 	},
 	"buffers":
 	[
+<<<<<<< HEAD
 		{
 			"file": "builds/development/index.html",
 			"settings":
@@ -15,10 +16,13 @@
 				"line_ending": "Windows"
 			}
 		}
+=======
+>>>>>>> origin/master
 	],
 	"build_system": "",
 	"command_palette":
 	{
+<<<<<<< HEAD
 		"height": 392.0,
 		"selected_items":
 		[
@@ -133,6 +137,57 @@
 			"user",
 			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
 		]
+=======
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"add folder",
+				"Project: Add Folder"
+			],
+			[
+				"find",
+				"FindKeyConflicts: All Conflicts"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"c#",
+				"Set Syntax: C#"
+			],
+			[
+				"csh",
+				"CSharpreter: Interpret"
+			],
+			[
+				"pa",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 514.0
+	},
+	"console":
+	{
+		"height": 125.0
+>>>>>>> origin/master
 	},
 	"distraction_free":
 	{
@@ -143,6 +198,7 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+<<<<<<< HEAD
 	"expanded_folders":
 	[
 		"/J/_github/workflows",
@@ -196,13 +252,43 @@
 	"find":
 	{
 		"height": 34.0
+=======
+	"file_history":
+	[
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/D/ar/_git/workflows/test.html",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/AdvancedNewFile/README.md",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/AdvancedNewFile/AdvancedNewFile.sublime-settings",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/User/Side Bar.sublime-settings",
+		"/D/ar/_git/workflows/gulpfile.js",
+		"/D/ar/_git/workflows/builds/development/index.html",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/D/ar/_git/workflows/builds/development/css/style.css",
+		"/D/ar/_git/workflows/.gitignore",
+		"/D/ar/software/sublime text 2/Themes/Color Schemes - Extra/Ryan Light.tmTheme",
+		"/D/ar/software/sublime text 2/Themes/Color Schemes - Extra/Notepad2.tmTheme",
+		"/D/ar/software/sublime text 2/Themes/Color Schemes - Extra/IR_White.tmTheme",
+		"/D/ar/software/sublime text 2/Themes/Color Schemes - Extra/IR_Black.tmTheme",
+		"/D/ar/software/sublime text 2/Themes/Theme - GitHub/GitHub.tmTheme",
+		"/D/ar/software/sublime text 2/Themes/Theme - Espresso Tutti/Espresso Tutti.tmTheme",
+		"/D/ontwikkeling/Cce/Doc/Ontwerp/COW/Concern FLOWAV/NwkEABs/KlokAanvoerBriefControleur.cs",
+		"/C/Users/ar/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 40.0
+>>>>>>> origin/master
 	},
 	"find_in_files":
 	{
 		"height": 0.0,
 		"where_history":
 		[
+<<<<<<< HEAD
 			""
+=======
+>>>>>>> origin/master
 		]
 	},
 	"find_state":
@@ -210,11 +296,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+<<<<<<< HEAD
 			"for",
 			"sho",
 			"btn",
 			"stylesheet",
 			"class"
+=======
+			"new"
+>>>>>>> origin/master
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -223,15 +313,22 @@
 		"replace_history":
 		[
 		],
+<<<<<<< HEAD
 		"reverse": true,
 		"show_context": true,
 		"use_buffer2": false,
+=======
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+>>>>>>> origin/master
 		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
+<<<<<<< HEAD
 			"selected": 0,
 			"sheets":
 			[
@@ -336,6 +433,10 @@
 					"stack_index": 0,
 					"type": "text"
 				}
+=======
+			"sheets":
+			[
+>>>>>>> origin/master
 			]
 		}
 	],
@@ -370,6 +471,7 @@
 		]
 	},
 	"menu_visible": true,
+<<<<<<< HEAD
 	"output.CSS Extended Completions":
 	{
 		"height": 0.0
@@ -387,6 +489,8 @@
 		"height": 118.0
 	},
 	"project": "workflows.sublime-project",
+=======
+>>>>>>> origin/master
 	"replace":
 	{
 		"height": 0.0
@@ -407,11 +511,16 @@
 		[
 			[
 				"",
+<<<<<<< HEAD
 				"/J/www/_test/_test.sublime-project"
+=======
+				"/D/ontwikkeling/Cce/Doc/Ontwerp/COW/Concern FLOWAV/NwkEABs/NwkEABs.sublime-project"
+>>>>>>> origin/master
 			]
 		],
 		"width": 380.0
 	},
+<<<<<<< HEAD
 	"select_symbol":
 	{
 		"height": 0.0,
@@ -424,13 +533,20 @@
 	"settings":
 	{
 	},
+=======
+>>>>>>> origin/master
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
+<<<<<<< HEAD
 	"side_bar_width": 267.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
 	}
+=======
+	"side_bar_width": 223.0,
+	"status_bar_visible": true
+>>>>>>> origin/master
 }

@@ -40,13 +40,19 @@ var env,
 env = process.env.NODE_ENV || 'development'; // global environment setting
 cssLinting = true;
 
-if (env === 'development') {
-  outputDir = 'builds/development/';
-  sassStyle = 'expanded';
-} else {
+if (env === 'production') {
   outputDir = 'builds/production/';
   sassStyle = 'compressed';
+<<<<<<< HEAD
 }
+=======
+  console.log("Running in PRODUCTION mode");
+} else {
+  outputDir = 'builds/development/';
+  sassStyle = 'expanded';
+  console.log("Running in DEVELOPMENT mode");
+};
+>>>>>>> origin/master
 
 coffeeSources = ['components/coffee/*.coffee'];
 jsSources = [

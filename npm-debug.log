@@ -1,0 +1,87 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'chocolatey' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.0
+4 silly cache add args [ 'chocolatey', null ]
+5 verbose cache add spec chocolatey
+6 silly cache add parsed spec { raw: 'chocolatey',
+6 silly cache add   scope: null,
+6 silly cache add   name: 'chocolatey',
+6 silly cache add   rawSpec: '',
+6 silly cache add   spec: '*',
+6 silly cache add   type: 'range' }
+7 verbose addNamed chocolatey@*
+8 silly addNamed semver.valid null
+9 silly addNamed semver.validRange *
+10 silly addNameRange { name: 'chocolatey', range: '*', hasData: false }
+11 silly mapToRegistry name chocolatey
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry http://registry.npmjs.org/
+14 silly mapToRegistry uri http://registry.npmjs.org/chocolatey
+15 verbose addNameRange registry:http://registry.npmjs.org/chocolatey not in flight; fetching
+16 verbose request uri http://registry.npmjs.org/chocolatey
+17 verbose request no auth needed
+18 info attempt registry request try #1 at 10:12:32 AM
+19 verbose request id b2956c4da0f615ed
+20 http request GET http://registry.npmjs.org/chocolatey
+21 http 404 http://registry.npmjs.org/chocolatey
+22 verbose headers { via: '1.1 varnish, 1.1 NW38',
+22 verbose headers   connection: 'Keep-Alive',
+22 verbose headers   'proxy-connection': 'Keep-Alive',
+22 verbose headers   'transfer-encoding': 'chunked',
+22 verbose headers   age: '0',
+22 verbose headers   date: 'Tue, 03 Mar 2015 09:12:32 GMT',
+22 verbose headers   'content-type': 'application/json',
+22 verbose headers   'content-encoding': 'gzip',
+22 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 verbose headers   'accept-ranges': 'bytes',
+22 verbose headers   'cache-control': 'max-age=0',
+22 verbose headers   'x-served-by': 'cache-ams4130-AMS',
+22 verbose headers   'x-cache': 'MISS',
+22 verbose headers   'x-cache-hits': '0',
+22 verbose headers   'x-timer': 'S1425373952.384823,VS0,VE378',
+22 verbose headers   vary: 'Accept-Encoding' }
+23 silly get cb [ 404,
+23 silly get   { via: '1.1 varnish, 1.1 NW38',
+23 silly get     connection: 'Keep-Alive',
+23 silly get     'proxy-connection': 'Keep-Alive',
+23 silly get     'transfer-encoding': 'chunked',
+23 silly get     age: '0',
+23 silly get     date: 'Tue, 03 Mar 2015 09:12:32 GMT',
+23 silly get     'content-type': 'application/json',
+23 silly get     'content-encoding': 'gzip',
+23 silly get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+23 silly get     'accept-ranges': 'bytes',
+23 silly get     'cache-control': 'max-age=0',
+23 silly get     'x-served-by': 'cache-ams4130-AMS',
+23 silly get     'x-cache': 'MISS',
+23 silly get     'x-cache-hits': '0',
+23 silly get     'x-timer': 'S1425373952.384823,VS0,VE378',
+23 silly get     vary: 'Accept-Encoding' } ]
+24 verbose stack Error: 404 Not Found: chocolatey
+24 verbose stack     at CachingRegistryClient.<anonymous> (c:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:251:14)
+24 verbose stack     at c:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:184:7
+24 verbose stack     at Gunzip.onEnd (zlib.js:227:5)
+24 verbose stack     at Gunzip.emit (events.js:129:20)
+24 verbose stack     at _stream_readable.js:908:16
+24 verbose stack     at process._tickCallback (node.js:355:11)
+25 verbose statusCode 404
+26 verbose pkgid chocolatey
+27 verbose cwd d:\ar\_git\workflows
+28 error Windows_NT 6.1.7601
+29 error argv "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-g" "chocolatey"
+30 error node v0.12.0
+31 error npm  v2.5.1
+32 error code E404
+33 error 404 Not Found: chocolatey
+33 error 404
+33 error 404 'chocolatey' is not in the npm registry.
+33 error 404 You should bug the author to publish it (or use the name yourself!)
+33 error 404
+33 error 404 Note that you can also install from a
+33 error 404 tarball, folder, http url, or git url.
+34 verbose exit [ 1, true ]

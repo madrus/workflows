@@ -1,0 +1,13 @@
+SET variable for the current session
+  [Environment]::SetEnvironmentVariable("NODE_ENV", "development", "Process")
+
+GET the session variable
+  [Environment]::GetEnvironmentVariable("NODE_ENV", "Process")
+
+DELETE the session variable
+  [Environment]::SetEnvironmentVariable("NODE_ENV", $null, "Process")
+
+LEVEL
+  - "User" (user-level)
+  - “Machine” (machine-level)
+  - “Process” (process-level)
