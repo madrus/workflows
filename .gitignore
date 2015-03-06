@@ -1,5 +1,4 @@
 .DS_Store
-__master
 node_modules
 .tmp
 .sass-cache

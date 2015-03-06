@@ -71,23 +71,26 @@ var pixgrid = function() {
         }, !1);
     }
 }();
-var $, fill;
+var $;
 
 $ = require('jquery');
 
-(fill = function(item) {
+fill(function(item) {
+  if (item == null) {
+    item = 'The most creative minds in Art';
+  }
   return $('.tagline').append("" + item);
-})('The most creative minds in Art');
+})();
 
 fill;
 
 // no need to require jQuery library here
 // because we have done it in tagline.coffee
 
-$(function() {
+$(function () {
   var Mustache = require('mustache'); // require Mustache library
 
-  $.getJSON('js/data.json', function(data) {
+  $.getJSON('js/data.json', function (data) {
     var template = $('#speakerstpl').html();
     var html = Mustache.to_html(template, data);
     $('#speakers').html(html);

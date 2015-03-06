@@ -1,4 +1,6 @@
-var gulp = require('gulp'),
+"use strict";
+
+var gulp = require('gulp'), // global
   coffee = require('gulp-coffee'),
   compass = require('gulp-compass'),
   autoprefixer = require('gulp-autoprefixer'),
@@ -18,6 +20,7 @@ var gulp = require('gulp'),
   gulpif = require('gulp-if'),
   notify = require('gulp-notify'),
   browserify = require('gulp-browserify'), // make sure you install jquery and mustasche plugins
+                                           // global
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
   concat = require('gulp-concat'),
@@ -31,6 +34,7 @@ var env,
   sassSources,
   sassStyle,
   outputDir,
+  cssLinting,
   doLinting;
 
 env = process.env.NODE_ENV || 'development'; // global environment setting
@@ -42,7 +46,7 @@ if (env === 'development') {
 } else {
   outputDir = 'builds/production/';
   sassStyle = 'compressed';
-};
+}
 
 coffeeSources = ['components/coffee/*.coffee'];
 jsSources = [
@@ -66,7 +70,7 @@ var notifyInfo = {
 };
 
 //error notification settings for plumber
-var plumberErrorHandler = function(err) {
+var plumberErrorHandler = function (err) {
   notify.onError({
     title: notifyInfo.title,
     subtitle: notifyInfo.subtitle,
@@ -77,7 +81,7 @@ var plumberErrorHandler = function(err) {
   this.emit('end');
 };
 
-gulp.task('html', function() {
+gulp.task('html', function () {
   return gulp.src('builds/development/*.html')
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -88,7 +92,7 @@ gulp.task('html', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
-gulp.task('compass', function() {
+gulp.task('compass', function () {
   return gulp.src(sassSources) // source file(s)
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -109,7 +113,7 @@ gulp.task('compass', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
-gulp.task('coffee', function() {
+gulp.task('coffee', function () {
   return gulp.src(coffeeSources) // source file(s)
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -124,7 +128,7 @@ gulp.task('coffee', function() {
     .pipe(gulp.dest('components/scripts')); // write the resulting javascript file to the scripts folder
 });
 
-gulp.task('js', function() {
+gulp.task('js', function () {
   return gulp.src(jsSources) // source file(s)
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -139,7 +143,7 @@ gulp.task('js', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
-gulp.task('images', function() {
+gulp.task('images', function () {
   return gulp.src('builds/development/images/**/*.*') // any subdirectory and any image
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -155,7 +159,7 @@ gulp.task('images', function() {
     .pipe(connect.reload()); // refresh the page
 });
 
-gulp.task('json', function() {
+gulp.task('json', function () {
   return gulp.src('builds/development/js/*.json')
     .pipe(plumber({
       errorHandler: plumberErrorHandler
@@ -167,7 +171,7 @@ gulp.task('json', function() {
 });
 
 // cleaning is only done by production builds
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   del([
     'builds/production/*.html',
     'builds/production/css/*.css',
@@ -175,19 +179,19 @@ gulp.task('clean', function() {
     'builds/production/js/*.json',
     'builds/production/images/**/*.*',
     'builds/production/images/*'
-  ], function(err, deletedFiles) {
+  ], function (err, deletedFiles) {
     console.log('Files deleted:', deletedFiles.join('\r'));
-  })
+  });
 });
 
-gulp.task('connect', function() {
+gulp.task('connect', function () {
   connect.server({
     root: outputDir, // development or production
     livereload: true
   });
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(coffeeSources, ['coffee']); // if anything changes in coffee folder(s), lint and compile them
   gulp.watch(jsSources, ['js']); // if anything changes in scripts folder(s), lint and uglify them
   gulp.watch('components/sass/*.scss', ['compass']); // if anything changes in sass folder(s), compile and evt. compress them
