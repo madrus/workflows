@@ -1,6 +1,6 @@
 "use strict";
 
-var gulp = require('gulp'), // global
+var gulp = require('gulp'), // global and local
   coffee = require('gulp-coffee'),
   compass = require('gulp-compass'),
   autoprefixer = require('gulp-autoprefixer'),
@@ -9,8 +9,9 @@ var gulp = require('gulp'), // global
   minifyHTML = require('gulp-minify-html'),
   minifyJSON = require('gulp-jsonminify'),
   uglify = require('gulp-uglify'),
+  pngquant = require('imagemin-pngquant'), // necessary for imagemin-pngcrush and gulp-imagemin
+  pngcrush = require('imagemin-pngcrush'), // necessary for gulp-imagemin
   imagemin = require('gulp-imagemin'),
-  pngcrush = require('imagemin-pngcrush'),
   // code linting
   lintCOFFIE = require('gulp-coffeelint'),
   lintJS = require('gulp-jshint'),
@@ -43,16 +44,12 @@ cssLinting = true;
 if (env === 'production') {
   outputDir = 'builds/production/';
   sassStyle = 'compressed';
-<<<<<<< HEAD
-}
-=======
   console.log("Running in PRODUCTION mode");
 } else {
   outputDir = 'builds/development/';
   sassStyle = 'expanded';
   console.log("Running in DEVELOPMENT mode");
-};
->>>>>>> origin/master
+}
 
 coffeeSources = ['components/coffee/*.coffee'];
 jsSources = [
@@ -142,7 +139,7 @@ gulp.task('js', function () {
     .pipe(lintJS())
     .pipe(lintJS.reporter(stylish)) // Dump results
     .pipe(concat('script.js')) // concatenate
-    .pipe(browserify()) // make it ready for the browser
+    .pipe(browserify()) // make it ready for the browser (add code of dependencies)
     .pipe(gulpif(env === 'production', uglify()))
     // .pipe(gulpif(env === 'production', rename({ suffix: '.min' })))
     .pipe(gulp.dest(outputDir + 'js')) // write to the resulting script.js file
