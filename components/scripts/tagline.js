@@ -1,12 +1,9 @@
-var $;
+var $, fill;
 
 $ = require('jquery');
 
-fill(function(item) {
-  if (item == null) {
-    item = 'The most creative minds in Art';
-  }
+(fill = function(item) {
   return $('.tagline').append("" + item);
-})();
+})('The most creative minds in Art');
 
 fill;
