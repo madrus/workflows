@@ -1,6 +1,8 @@
 .DS_Store
-node_modules
 .tmp
 .sass-cache
+.bak
+*.sublime*
 builds/**/images/*
-worklows.*
+builds/production/*
+node_modules

@@ -5,11 +5,10 @@ var gulp = require('gulp'), // global and local
   compass = require('gulp-compass'),
   autoprefixer = require('gulp-autoprefixer'),
   // minifying
-  minifyCSS = require('gulp-minify-css'),
+  minifyCSS = require('gulp-cssmin'),
   minifyHTML = require('gulp-minify-html'),
   minifyJSON = require('gulp-jsonminify'),
   uglify = require('gulp-uglify'),
-  pngquant = require('imagemin-pngquant'), // necessary for imagemin-pngcrush and gulp-imagemin
   pngcrush = require('imagemin-pngcrush'), // necessary for gulp-imagemin
   imagemin = require('gulp-imagemin'),
   // code linting
@@ -21,7 +20,6 @@ var gulp = require('gulp'), // global and local
   gulpif = require('gulp-if'),
   notify = require('gulp-notify'),
   browserify = require('gulp-browserify'), // make sure you install jquery and mustasche plugins
-                                           // global
   plumber = require('gulp-plumber'),
   connect = require('gulp-connect'),
   concat = require('gulp-concat'),
@@ -34,12 +32,9 @@ var env,
   jsSources,
   sassSources,
   sassStyle,
-  outputDir,
-  cssLinting,
-  doLinting;
+  outputDir;
 
 env = process.env.NODE_ENV || 'development'; // global environment setting
-cssLinting = true;
 
 if (env === 'production') {
   outputDir = 'builds/production/';
@@ -54,7 +49,7 @@ if (env === 'production') {
 coffeeSources = ['components/coffee/*.coffee'];
 jsSources = [
   'components/scripts/rclick.js',
-  'components/scripts/pixgrids.js',
+  'components/scripts/pixgrid.js',
   'components/scripts/tagline.js',
   'components/scripts/template.js'
 ];
@@ -102,6 +97,7 @@ gulp.task('compass', function () {
     }))
     .pipe(compass({
       sass: 'components/sass',
+      css: outputDir + 'css',
       image: outputDir + 'images/',
       style: sassStyle,
       comments: true,
